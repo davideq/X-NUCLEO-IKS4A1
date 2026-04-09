@@ -78,9 +78,17 @@ void setup() {
 
   // Initialize LSM6DSV16X.
   accGyr.begin();
+  accGyr.Enable_X();
+  accGyr.Enable_G();
 
   // Enable Sensor Fusion
+  status |= accGyr.Set_X_FS(4);
+  status |= accGyr.Set_G_FS(2000);
+  status |= accGyr.Set_X_ODR(120.0f);
+  status |= accGyr.Set_G_ODR(120.0f);
+  status |= accGyr.Set_SFLP_ODR(120.0f);
   status |= accGyr.Enable_Rotation_Vector();
+  status |= accGyr.FIFO_Set_Mode(LSM6DSV16X_STREAM_MODE);
 
   if (status != LSM6DSV16X_OK) {
     SerialPort.println("LSM6DSV16X Sensor failed to init/configure");
